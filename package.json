@@ -1,0 +1,32 @@
+{
+  "name": "url_shortener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "article-title": "^2.0.0",
+    "config": "^3.3.7",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "geoip-lite": "^1.4.3",
+    "get-title-at-url": "^1.1.8",
+    "ip2location-nodejs": "^9.1.0",
+    "mongoose": "^6.2.1",
+    "mongoose-date-format": "^1.2.0",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
+    "shortid": "^2.2.16",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

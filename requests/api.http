@@ -1,0 +1,7 @@
+POST https://localhost:5000/api/url/shorten
+
+Content-Type: application/json
+
+{
+    "longUrl": "https://social.msdn.microsoft.com/Forums/en-US/e18cc1f9-f11c-4694-a6d2-28c24fa40b34/set-cookie-with-javascript-and-get-it-with-aspnet?forum=aspgettingstarted"
+}
