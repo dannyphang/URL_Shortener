@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://Dannyphang64:Danny199964@cluster0.cbyws.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", 
-    "baseUrl": "http://localhost:5000"
+    "mongoURI": "mongodb+srv://Dannyphang64:Danny199964@cluster0.cbyws.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "baseUrl": "http://34.124.140.12"
 }

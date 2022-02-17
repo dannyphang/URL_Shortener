@@ -18,16 +18,6 @@ router.get('/:code', async(req, res) => {
 
             console.log("Url Visited: " + url.visited_count);
 
-            // var urlObj = JSON.parse((url));
-            // var num = 10;
-            // urlObj['geolocation'].push({
-            //     visited_time: new Date(),
-            //     // ip: req.socket.remoteAddress,
-            //     // country: getCountry(req.socket.remoteAddress),
-            //     ip: "(num++).toString()",
-            //     country: "(num++).toString()",
-            // })
-
             url.ip += req.socket.remoteAddress + " ";
             url.visited_time += `${new Date().getDate().toString()}\/${new Date().getMonth().toString()}\/${new Date().getFullYear().toString()}` + " ";
 

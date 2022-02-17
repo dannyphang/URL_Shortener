@@ -22,6 +22,6 @@ app.get('/', async(req, res) => {
 app.use('/goto/', require('./routes/code'));
 app.use('/api/', require('./routes/url'));
 
-const PORT = 5000;
+const PORT = 80;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
