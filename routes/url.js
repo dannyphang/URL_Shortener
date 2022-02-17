@@ -31,11 +31,14 @@ router.post('/shorten', async(req, res) => {
             if (validUrl.isUri(longUrl)) {
                 try {
                     let url = await Url.findOne({ longUrl });
+                    console.log(longUrl);
 
                     if (url) {
                         res.json(url);
+                        // console.log(url);
+                        // console.log("im here");
                     } else {
-                        const shortUrl = `${req.hostname === 'localhost' ? 'http://localhost:5000' : `https://${req.hostname}`}` + "/goto/" + url_code;
+                        const shortUrl = `${req.hostname === 'localhost' ? 'http://localhost:5000' : `http://${req.hostname}`}` + "/goto/" + url_code;
 
                 url = new Url({
                     longUrl,
@@ -46,7 +49,7 @@ router.post('/shorten', async(req, res) => {
                 });
 
                 await url.save();
-
+                // console.log("nah, im here!!!");
                 res.json(url);
             }
         }
