@@ -25,7 +25,13 @@ git clone https://github.com/dannyphang/URL_Shortener.git
 ```
 Or download the `.zip` file from [Github](https://github.com/dannyphang/URL_Shortener.git) and unzip it.
 
-2. Install all the requirements with `npm`.
+2. Switch the directory to the `URL_Shortener`. Example: 
+
+```
+C:\Users\danny\Desktop\URL_Shortener>
+```
+
+3. Install all the requirements with `npm`.
 
 ```bash
 npm install

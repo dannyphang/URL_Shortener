@@ -12,12 +12,13 @@ connectDB();
 
 app.use(cors({ origin: '*' }));
 app.use(express.json({ extended: false }));
+app.use(express.static('public'))
 
-// define routes
-app.get('/', async(req, res) => {
-    // const shortUrls = await ShortUrl.find();
-    res.render('./index.html');
-});
+// // define routes
+// app.get('/', async(req, res) => {
+//     // const shortUrls = await ShortUrl.find();
+//     res.render('./index.html');
+// });
 
 app.use('/goto/', require('./routes/code'));
 app.use('/api/', require('./routes/url'));

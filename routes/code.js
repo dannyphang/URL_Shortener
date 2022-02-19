@@ -9,21 +9,21 @@ router.get('/:code', async(req, res) => {
         // console.log("Request params long: " + url.longUrl);
         const url = await Url.findOne({ url_code: req.params.code }).exec();
 
-        if (url) {
-            // if the link is visited
-            // url.geolocation = 
+        if (url) { // if the link is visited
+
             url.visited_count++;
 
-            console.log(req.socket.remoteAddress);
+            // console.log(req.socket.remoteAddress);
 
-            console.log("Url Visited: " + url.visited_count);
+            // console.log("Url Visited: " + url.visited_count);
 
-            url.ip += req.socket.remoteAddress + " ";
-            url.visited_time += `${new Date().getDate().toString()}\/${new Date().getMonth().toString()}\/${new Date().getFullYear().toString()}` + " ";
+            url.ip += `${url.visited_count}. ${req.socket.remoteAddress}_`;
+            url.visited_time += `${new Date().getDate().toString()}\/${new Date().getMonth().toString()}\/${new Date().getFullYear().toString()}_`;
 
-            console.log(`${new Date().getDate().toString()}\/${new Date().getMonth().toString()}\/${new Date().getFullYear().toString()}`);
+            // console.log(`${new Date().getDate().toString()}\/${new Date().getMonth().toString()}\/${new Date().getFullYear().toString()}`);
 
             url.save();
+
             return res.redirect(url.longUrl);
         } else {
             return res.status(404).json('No Url found');
@@ -33,11 +33,5 @@ router.get('/:code', async(req, res) => {
         res.status(500).json('Server error');
     }
 });
-
-function getCountry(ip) {
-    var geo = geoip.lookup(ip);
-
-    return geo.country;
-}
 
 module.exports = router;

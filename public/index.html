@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        URL Shortener
+    </title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+</head>
+
+<body class="container">
+    <div>
+        <form>
+            <input id="url-input" type="search" placeholder="Enter your link..." autofocus>
+            <button id="url-btn" type="submit">Search</button>
+        </form>
+    </div>
+
+    <table class="rwd-table" id="rwd-table">
+        <tr>
+            <td colspan="4">
+                <h3 id="url-title"></h3>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <p id="url-long"></p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <a id="a_link" href="" target="_blank">
+                    <p id="url-short"></p>
+                </a>
+            </td>
+            <td id="copy-td">
+                <button class="copy-btn" onclick="copyToClipboard()"><span><ion-icon name="copy-outline"></ion-icon></span></button>
+            </td>
+        </tr>
+    </table>
+    <a href="#" class="modal-trigger" data-modal="modal-name" onclick="handleModalClick()">More</a>
+    <!-- Trigger Modal. -->
+
+    <!-- Modal -->
+    <div class="modal" id="modal-name">
+        <div class="modal-sandbox"></div>
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="close-modal">&#10006;</div>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <table class="model-table">
+                        <thead class="model-thead">
+                            <tr class="model-tr">
+                                <th>Original URL</th>
+                                <th>Short URL</th>
+                                <th>Clicks</th>
+                                <th>IP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="model-tbody" class="model-tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ionicon -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script>
+        async function shortenUrl(url) {
+            const res = await fetch(`${window.origin}/api/shorten`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    longUrl: url
+                })
+            })
+            const data = res.json();
+            return data;
+        }
+
+        async function getData() {
+            const res = await fetch(`${window.origin}/api/getData`, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            const data = res.json();
+            return data;
+        }
+
+        async function handleModalClick() {
+            const data = await getData();
+            let html = ``;
+
+            for (let i = 0; i < data.length; i++) {
+                ip2 = data[i].ip.split("_");
+                time2 = data[i].visited_time.split("_");
+
+                console.log(ip2);
+                console.log(time2);
+
+                html += `
+                <tr class="model-tr">
+                    <td>${data[i].longUrl}</td>
+                    <td>${data[i].shortUrl}</td>
+                    <td>${data[i].visited_count}</td>
+                    <td>
+                    `;
+                for (let j = 0; j < ip2.length - 1; j++) {
+                    html += `${ip2[j]}(${time2[j]})` + "\n";
+                }
+                html += `</td></tr>`;
+            }
+
+            document.querySelector("#model-tbody").innerHTML = html;
+        }
+
+        document.querySelector('#url-btn').addEventListener("click", async(event) => {
+            event.preventDefault();
+            const url = document.querySelector('#url-input').value;
+
+            if (validURL(url)) {
+                const data = await shortenUrl(url);
+
+                document.querySelector('#url-long').innerHTML = `${JSON.stringify(data.longUrl).replace(/\"/g, '')}`;
+                document.querySelector('#url-short').innerHTML = JSON.stringify(data.shortUrl).replace(/\"/g, '');
+                document.querySelector('#a_link').href = JSON.stringify(data.shortUrl).replace(/\"/g, '');
+                document.querySelector('#url-title').innerHTML = JSON.stringify(data.url_title).replace(/\"/g, '');
+
+                document.getElementById('rwd-table').style.visibility = 'visible';
+
+            } else {
+                alert('Please enter a valid URL');
+            }
+
+            document.getElementById('url-input').value = "";
+        })
+
+        function validURL(str) {
+            var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+            return !!pattern.test(str);
+        }
+
+        function copyToClipboard() {
+            var text = document.getElementById("url-short").innerText;
+            var el = document.createElement("textarea");
+
+            el.value = text;
+            document.body.appendChild(el)
+            el.select()
+            document.execCommand('copy')
+            document.body.removeChild(el)
+            console.log(text.innerText);
+        }
+    </script>
+    <script>
+        $(".modal-trigger").click(function(e) {
+            e.preventDefault();
+            dataModal = $(this).attr("data-modal");
+            $("#" + dataModal).css({
+                "display": "block"
+            });
+            // $("body").css({"overflow-y": "hidden"}); //Prevent double scrollbar.
+        });
+
+        $(".close-modal, .modal-sandbox").click(function() {
+            $(".modal").css({
+                "display": "none"
+            });
+            // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+        });
+    </script>
+</body>
+
+</html>

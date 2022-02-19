@@ -5,7 +5,6 @@ const router = express.Router();
 const validUrl = require('valid-url');
 const shortid = require('shortid');
 const config = require('config');
-var getTitleAtUrl = require('get-title-at-url');
 
 const Url = require('../models/Url');
 
@@ -35,10 +34,9 @@ router.post('/shorten', async(req, res) => {
 
                     if (url) {
                         res.json(url);
-                        // console.log(url);
-                        // console.log("im here");
+
                     } else {
-                        const shortUrl = `${req.hostname === 'localhost' ? 'http://localhost:5000' : `http://${req.hostname}`}` + "/goto/" + url_code;
+                        const shortUrl = `${req.hostname === 'localhost' ? 'http://localhost:80' : `http://${req.hostname}`}` + "/goto/" + url_code;
 
                 url = new Url({
                     longUrl,
@@ -49,7 +47,7 @@ router.post('/shorten', async(req, res) => {
                 });
 
                 await url.save();
-                // console.log("nah, im here!!!");
+                
                 res.json(url);
             }
         }
@@ -61,6 +59,11 @@ router.post('/shorten', async(req, res) => {
     else {
         res.status(401).json('Invalid long Url');
     }
+})
+
+router.get('/getData', async (req, res) => {
+    const allData = await Url.find({});
+    res.json(allData);
 })
 
 module.exports = router;
