@@ -226,8 +226,8 @@ input[type="search"]:focus {
 
 .modal-box {
     position: relative;
-    width: 90%;
-    max-width: 1520px;
+    width: 85%;
+    min-width: 1000px;
     margin: 100px auto;
     animation-name: modalbox;
     animation-duration: .4s;
@@ -335,15 +335,4 @@ input[type="search"]:focus {
 
 .model-tbody td {
     position: relative;
-}
-
-.model-tbody td:hover:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -9999px;
-    bottom: -9999px;
-    background-color: rgba(0, 0, 0, 0.2);
-    z-index: 2;
 }
